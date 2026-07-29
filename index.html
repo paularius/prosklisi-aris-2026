@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<title>Πρόσκληση Γενεθλίων - Άρης (Comic)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@400;600;700;800&family=Varela+Round&display=swap');
+
+  :root{
+    --ink:#0E1116;
+    --paper:#FDF6E3;
+    --yellow:#FFD400;
+    --red:#E8342A;
+    --blue:#1E5FCC;
+  }
+
+  *{box-sizing:border-box;}
+
+  body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#0E1116;
+    font-family:'Varela Round', sans-serif;
+    padding:24px;
+  }
+
+  .comic{
+    position:relative;
+    width:400px;
+    max-width:94vw;
+    background:var(--paper);
+    border:6px solid var(--ink);
+    border-radius:8px;
+    box-shadow: 10px 10px 0 var(--ink);
+    overflow:hidden;
+    padding-bottom:20px;
+  }
+
+  /* poster-style burst header */
+  .band{
+    position:relative;
+    background:
+      radial-gradient(circle at 50% 35%, #2a3f7a 0%, #16234a 45%, #0c1633 100%);
+    border-bottom:6px solid var(--ink);
+    padding:26px 16px 18px;
+    text-align:center;
+    overflow:hidden;
+  }
+  .band .rays{
+    position:absolute;
+    inset:-20%;
+    background:
+      repeating-conic-gradient(from 0deg, rgba(255,255,255,.05) 0deg 6deg, transparent 6deg 12deg);
+    animation: spin 40s linear infinite;
+  }
+  @keyframes spin{ to{ transform: rotate(360deg); } }
+
+  .title{
+    position:relative;
+    font-family:'Playpen Sans', cursive;
+    font-weight:800;
+    font-size:38px;
+    line-height:1;
+    color:var(--yellow);
+    letter-spacing:.005em;
+    text-transform:uppercase;
+    -webkit-text-stroke: 2px var(--ink);
+    text-stroke: 2px var(--ink);
+    text-shadow:
+      3px 3px 0 var(--ink),
+      6px 6px 0 rgba(0,0,0,.4);
+  }
+  .title .ch{ display:inline-block; }
+  .title .ch:nth-child(5n){ transform: rotate(-5deg) translateY(2px); }
+  .title .ch:nth-child(5n+1){ transform: rotate(3deg) translateY(-2px); }
+  .title .ch:nth-child(5n+2){ transform: rotate(-2deg) translateY(1px); }
+  .title .ch:nth-child(5n+3){ transform: rotate(4deg) translateY(-1px); }
+  .title .ch:nth-child(5n+4){ transform: rotate(-3deg) translateY(2px); }
+
+  .title small.line2{
+    position:relative;
+    display:inline-block;
+    margin-top:10px;
+    background:var(--brick, var(--red));
+    color:#fff;
+    font-size:17px;
+    padding:5px 16px;
+    border:3px solid var(--ink);
+    border-radius:4px;
+    transform:rotate(-2deg);
+    -webkit-text-stroke:0;
+    text-stroke:0;
+    text-shadow:2px 2px 0 var(--ink);
+  }
+
+  /* ===== IMAGE PANEL — swap the src below with your own picture ===== */
+  .art-panel{
+    margin:16px 16px 0;
+    border:5px solid var(--ink);
+    border-radius:6px;
+    background:
+      repeating-linear-gradient(45deg, #eae0c4, #eae0c4 10px, #f3ead0 10px, #f3ead0 20px);
+    aspect-ratio: 4 / 3;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    position:relative;
+  }
+  .art-panel img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .art-panel .hint{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:14px;
+    background:rgba(253,246,227,.6);
+  }
+  .art-panel .target{
+    width:46%;
+    aspect-ratio:1;
+    border:4px dashed var(--ink);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:10px;
+  }
+  .art-panel .target-emoji{
+    font-size:34px;
+  }
+  .art-panel .hint-text{
+    font-family:'Playpen Sans', cursive;
+    font-weight:800;
+    color:var(--ink);
+    font-size:19px;
+    line-height:1.25;
+  }
+  .art-panel .hint-sub{
+    font-family:'Playpen Sans', cursive;
+    font-weight:600;
+    color:var(--ink);
+    font-size:12.5px;
+    opacity:.75;
+    margin-top:4px;
+  }
+  .art-panel .arrow{
+    position:absolute;
+    top:14px; left:14px;
+    width:60px; height:60px;
+    opacity:.6;
+  }
+
+  /* speech bubble, pops in with a stop-motion-ish bounce */
+  .bubble-wrap{
+    display:flex;
+    justify-content:center;
+    margin-top:-8px;
+    position:relative;
+    z-index:2;
+  }
+  .bubble{
+    background:#fff;
+    border:5px solid var(--ink);
+    border-radius:22px;
+    padding:16px 18px;
+    width:88%;
+    position:relative;
+    animation: pop-in .5s steps(6) 1, idle-bounce 2.6s ease-in-out .5s infinite;
+    transform-origin:center bottom;
+  }
+  .bubble::before,
+  .bubble::after{ content:none; }
+  .tail{
+    position:absolute;
+    left:14px;
+    top:-70px;
+    width:44px;
+    height:80px;
+    z-index:0;
+  }
+  @keyframes pop-in{
+    0%{ transform: scale(.2) rotate(-8deg); opacity:0; }
+    50%{ transform: scale(1.12) rotate(2deg); opacity:1; }
+    75%{ transform: scale(.94) rotate(-1deg); }
+    100%{ transform: scale(1) rotate(0deg); }
+  }
+  @keyframes idle-bounce{
+    0%,100%{ transform: translateY(0) rotate(0deg); }
+    50%{ transform: translateY(-4px) rotate(.6deg); }
+  }
+
+  .bubble p{
+    margin:0;
+    font-family:'Playpen Sans', cursive;
+    font-weight:700;
+    color:var(--ink);
+    font-size:17px;
+    line-height:1.5;
+    text-align:center;
+  }
+  .bubble p .w{ display:inline-block; }
+  .bubble p .w:nth-child(3n){ transform: rotate(-2.5deg) translateY(2px); }
+  .bubble p .w:nth-child(3n+1){ transform: rotate(1.5deg) translateY(-1px); }
+  .bubble p .w:nth-child(3n+2){ transform: rotate(-1deg) translateY(1px); }
+  .bubble p .accent{ color:var(--red); }
+  .bubble p .accent2{ color:var(--blue); }
+
+  .details{
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    flex-wrap:wrap;
+    margin:16px 16px 0;
+  }
+  .pill{
+    background:var(--blue);
+    color:#fff;
+    font-family:'Playpen Sans', cursive;
+    font-weight:700;
+    font-size:12.5px;
+    padding:7px 12px;
+    border:3px solid var(--ink);
+    border-radius:999px;
+  }
+  .pill.alt{ background:var(--yellow); color:var(--ink); }
+
+  .mission{
+    margin:16px 16px 0;
+    border:4px dashed var(--ink);
+    border-radius:10px;
+    padding:12px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:#fff;
+  }
+  .mission img{
+    width:88px; height:88px;
+    display:block;
+    flex-shrink:0;
+    image-rendering:pixelated;
+    background:#fff;
+  }
+  .mission-text{ font-family:'Playpen Sans', cursive; }
+  .mission-text .t1{
+    font-weight:800;
+    font-size:12.5px;
+    color:var(--red);
+    text-transform:uppercase;
+    margin-bottom:2px;
+  }
+  .mission-text .t2{
+    font-weight:500;
+    font-size:12px;
+    color:var(--ink);
+    line-height:1.35;
+    font-family:'Varela Round', sans-serif;
+  }
+
+  .pow{
+    position:absolute;
+    top:8px; right:10px;
+    font-family:'Playpen Sans', cursive;
+    font-weight:800;
+    font-size:13px;
+    color:var(--ink);
+    background:var(--yellow);
+    border:3px solid var(--ink);
+    padding:3px 8px;
+    border-radius:6px;
+    transform:rotate(6deg);
+  }
+</style>
+</head>
+<body>
+
+<div class="comic">
+
+  <div class="band">
+    <div class="rays"></div>
+    <div class="pow">1/8</div>
+    <div class="title" id="titleText"></div>
+  </div>
+
+  <!-- ============================================================
+       ⬇️ ΒΑΛΕ ΤΗΝ ΔΙΚΗ ΣΟΥ ΕΙΚΟΝΑ ΕΔΩ ⬇️
+       Αντικατέστησε το src="" παρακάτω με το link ή το αρχείο
+       της εικόνας που θέλεις (π.χ. σχέδιο, φωτογραφία, ήρωας).
+       Αν αφήσεις το src κενό, θα φαίνεται η υπόδειξη.
+  ============================================================ -->
+  <div class="art-panel">
+    <img src="images.jpg" alt="Ήρωας πρόσκλησης" onerror="this.style.display='none'">
+    <svg class="arrow" viewBox="0 0 60 60" fill="none">
+      <path d="M6 8 Q10 40 34 46" stroke="#0E1116" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 7"/>
+      <path d="M27 42 L34 46 L31 38" stroke="#0E1116" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </svg>
+    
+  </div>
+
+  <div class="bubble-wrap">
+    <div class="bubble">
+      <svg class="tail" viewBox="0 0 50 90" fill="none">
+        <path d="M8,90
+                 C-4,60 4,38 20,24
+                 C30,15 40,8 46,0
+                 C39,11 30,19 24,31
+                 C16,47 14,67 23,90
+                 Z"
+              fill="#ffffff" stroke="#0E1116" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+      </svg>
+      <p id="bubbleText">Ψιτ! Θα χαρώ πολύ να έρθεις να γιορτάσουμε τα γενέθλιά μου το Σάββατο!</p>
+    </div>
+  </div>
+
+  <div class="details">
+    <div class="pill">📅 ΣΑΒΒΑΤΟ 1/8</div>
+    <div class="pill alt">🕔 17:00</div>
+    <div class="pill">📍 ΠΑΡΚΟ ΚΝΩΣΣΟΥ</div>
+  </div>
+
+  <div class="mission">
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2Fmaps.app.goo.gl%2F5Z3BUN7GxsVWHczQ7" alt="QR code χάρτη">
+    <div class="mission-text">
+      <div class="t1">Σκάναρε τον χάρτη</div>
+      <div class="t2">για να βρεις εύκολα το σημείο συνάντησης στο Πάρκο Κνωσσού.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Hand-lettering effect: wraps text into wobbly spans (letters for the
+  // title, words for the speech bubble) — purely typographic, no images.
+  function wobbleChars(el){
+    const text = el.textContent;
+    el.textContent = '';
+    [...text].forEach(ch=>{
+      const s = document.createElement('span');
+      s.className = 'ch';
+      s.textContent = ch === ' ' ? '\u00A0' : ch;
+      el.appendChild(s);
+    });
+  }
+  function wobbleWords(el){
+    const text = el.textContent.trim();
+    el.textContent = '';
+    text.split(' ').forEach((word, i)=>{
+      const s = document.createElement('span');
+      s.className = 'w';
+      s.textContent = word;
+      el.appendChild(s);
+      if(i < text.split(' ').length - 1) el.appendChild(document.createTextNode(' '));
+    });
+  }
+
+  document.getElementById('titleText').innerHTML =
+    '<span class="line1"></span><small class="line2"></small>';
+  const line1 = document.querySelector('#titleText .line1');
+  const line2 = document.querySelector('#titleText .line2');
+  line1.textContent = 'ΤΑ ΓΕΝΕΘΛΙΑ';
+  line2.textContent = 'ΤΟΥ ΑΡΗ!';
+  wobbleChars(line1);
+  wobbleChars(line2);
+  wobbleWords(document.getElementById('bubbleText'));
+</script>
+
+</body>
+</html>
