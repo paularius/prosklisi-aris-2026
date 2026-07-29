@@ -170,14 +170,18 @@
     position:relative;
     z-index:2;
   }
+  .bubble-anim{
+    position:relative;
+    width:88%;
+    animation: pop-in .5s steps(6) 1, idle-bounce 2.6s ease-in-out .5s infinite;
+    transform-origin:center bottom;
+  } 
   .bubble{
     background:#fff;
     border:5px solid var(--ink);
     border-radius:22px;
     padding:16px 18px;
-    width:88%;
     position:relative;
-    animation: pop-in .5s steps(6) 1, idle-bounce 2.6s ease-in-out .5s infinite;
     transform-origin:center bottom;
   }
   .bubble::before,
@@ -233,8 +237,11 @@
     padding:7px 12px;
     border:3px solid var(--ink);
     border-radius:999px;
+    text-decoration:none;
+    display:inline-block; 
   }
   .pill.alt{ background:var(--yellow); color:var(--ink); }
+  a.pill:active{ transform:translateY(1px); } 
 
   .mission{
     margin:16px 16px 0;
@@ -245,7 +252,10 @@
     align-items:center;
     gap:12px;
     background:#fff;
+    text-decoration:none;
+    cursor:pointer; 
   }
+  .mission:active{ transform:translateY(1px); } 
   .mission img{
     width:88px; height:88px;
     display:block;
@@ -306,12 +316,11 @@
       <path d="M6 8 Q10 40 34 46" stroke="#0E1116" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 7"/>
       <path d="M27 42 L34 46 L31 38" stroke="#0E1116" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
     </svg>
-    
   </div>
 
   <div class="bubble-wrap">
-    <div class="bubble">
-      <svg class="tail" viewBox="0 0 50 90" fill="none">
+    <div class="bubble-anim">
+          <svg class="tail" viewBox="0 0 50 90" fill="none">
         <path d="M8,90
                  C-4,60 4,38 20,24
                  C30,15 40,8 46,0
@@ -320,7 +329,9 @@
                  Z"
               fill="#ffffff" stroke="#0E1116" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
       </svg>
-      <p id="bubbleText">Ψιτ! Θα χαρώ πολύ να έρθεις να γιορτάσουμε τα γενέθλιά μου το Σάββατο!</p>
+            <div class="bubble"> 
+      <p id="bubbleText">Ψιτ, φιλαράκι!! Θα χαρώ πολύ να έρθεις να γιορτάσουμε τα γενέθλιά μου το Σάββατο!</p>
+            </div> 
     </div>
   </div>
 
@@ -328,18 +339,17 @@
     <div class="pill">📅 ΣΑΒΒΑΤΟ 1/8</div>
     <div class="pill alt">🕔 17:00</div>
     <div class="pill">📍 ΠΑΡΚΟ ΚΝΩΣΣΟΥ</div>
+    <a class="pill" href="https://maps.app.goo.gl/5Z3BUN7GxsVWHczQ7" target="_blank" rel="noopener">📍 ΠΑΡΚΟ ΚΝΩΣΣΟΥ</a>
   </div>
 
-  <div class="mission">
+  <a class="mission" href="https://maps.app.goo.gl/5Z3BUN7GxsVWHczQ7" target="_blank" rel="noopener"> 
     <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2Fmaps.app.goo.gl%2F5Z3BUN7GxsVWHczQ7" alt="QR code χάρτη">
     <div class="mission-text">
-      <div class="t1">Σκάναρε τον χάρτη</div>
+      <div class="t1">Σκάναρε ή πάτησε εδώ</div>
       <div class="t2">για να βρεις εύκολα το σημείο συνάντησης στο Πάρκο Κνωσσού.</div>
     </div>
-  </div>
-
-</div>
-
+  </a>
+</div> 
 <script>
   // Hand-lettering effect: wraps text into wobbly spans (letters for the
   // title, words for the speech bubble) — purely typographic, no images.
